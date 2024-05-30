@@ -1,0 +1,39 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: awf-demo
+  namespace: awf-demo
+  labels:
+    app: awf-demo
+spec:
+  nodeSelector:
+    kubernetes.io/os: linux
+    kubernetes.io/arch: amd64
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "awf-demo:latest"
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Docker
+    dockerStrategy:
+      from:
+        kind: DockerImage
+        name: "ubuntu:jammy"
+      dockerfilePath: Containerfile
+  postCommit: {}
+  source:
+    type: Git
+    dockerfile: Containerfile
+    git:
+      uri: https://github.com/odra/awf-ocp-ci-demo.git
+      ref: main
+    contextDir: .
+  runPolicy: Serial
+  triggers:
+    - type: ConfigChange
+    - type: "GitHub"
+      github:
+        secretReference:
+          name: "github-webhook"
