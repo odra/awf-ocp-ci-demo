@@ -3,7 +3,7 @@ FROM ubuntu:jammy
 ARG ROS_DISTRO=humble
 ARG ROS_VARIANT=desktop
 ARG AWF_GIT_URL=https://github.com/autowarefoundation/autoware.git
-ARG AWF_GIT_REFS=main
+ARG AWF_GIT_REFS=2024.05
 ARG AWF_BUILD_TYPE=Release
 
 ENV LANG=en_US.UTF-8
